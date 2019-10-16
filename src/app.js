@@ -13,6 +13,10 @@ const {
 const accountRoutes = require('./routes/accounts.js');
 const servicesRoutes = require('./routes/services.js');
 
+const mongoose = require('./mongoose.js');
+
+mongoose.start(accounts, users);
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -38,3 +42,9 @@ app.use('/account', accountRoutes);
 app.use('/services', servicesRoutes);
 
 app.listen(3000, () => console.log('PS Project Running on port 3000!'));
+
+app.use((error, req, res, next) => {
+    console.log(error);
+    console.error('Global error handle');
+    res.status(500).send('Interal error');
+});
